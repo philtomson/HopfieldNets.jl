@@ -1,4 +1,5 @@
-type ContinuousHopfieldNet <: HopfieldNet
+using Printf
+struct ContinuousHopfieldNet <: HopfieldNet
     s::Vector{Float64} # State
     W::Matrix{Float64} # Weights
 end

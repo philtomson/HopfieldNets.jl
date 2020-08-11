@@ -1,4 +1,5 @@
-type DiscreteHopfieldNet <: HopfieldNet
+using LinearAlgebra
+struct DiscreteHopfieldNet <: HopfieldNet
     s::Vector{Float64} # State -- could have used Int's
     W::Matrix{Float64} # Weights
 end

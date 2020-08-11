@@ -32,7 +32,7 @@ We'll restore a corrupted representation fo the letter X specified as a vector o
 	     Xcorrupt[i] = 1
 	end
 
-	Xrestored = associate!(net, Xcorrupt)
+	Xrestored = associate!(net, Xcorrupt[:,3])
 	all(Xcorrupt .== X)
 	all(Xrestored .== X)
 

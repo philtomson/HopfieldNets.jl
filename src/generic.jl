@@ -1,4 +1,6 @@
-abstract HopfieldNet
+using Printf
+using LinearAlgebra
+abstract type HopfieldNet end
 
 function energy(net::HopfieldNet)
     e = 0.0
@@ -27,10 +29,10 @@ function settle!(net::HopfieldNet,
     return
 end
 
-function associate!{T <: Real}(net::HopfieldNet,
+function associate!(net::HopfieldNet,
                                pattern::Vector{T};
                                iterations::Integer = 1_000,
-                               trace::Bool = false)
+                               trace::Bool = false) where {T <: Real}
     copy!(net.s, pattern)
     settle!(net, iterations, trace)
     # TODO: Decide if this should really be a copy
@@ -38,7 +40,7 @@ function associate!{T <: Real}(net::HopfieldNet,
 end
 
 # Hebbian learning steps w/ columns as patterns
-function train!{T <: Real}(net::HopfieldNet, patterns::Matrix{T})
+function train!(net::HopfieldNet, patterns::Matrix{T}) where {T <: Real} 
     n = length(net.s)
     p = size(patterns, 2)
     # Could use outer products here
@@ -57,8 +59,8 @@ function train!{T <: Real}(net::HopfieldNet, patterns::Matrix{T})
     return
 end
 
-function h{T <: Real}(i::Integer, j::Integer, mu::Integer, n::Integer,
-                      W::Matrix{Float64}, patterns::Matrix{T})
+function h(i::Integer, j::Integer, mu::Integer, n::Integer,
+                      W::Matrix{Float64}, patterns::Matrix{T}) where {T <: Real}
     res = 0.0
     for k in 1:n
         if k != i && k != j
@@ -69,7 +71,7 @@ function h{T <: Real}(i::Integer, j::Integer, mu::Integer, n::Integer,
 end
 
 # Storkey learning steps w/ columns as patterns
-function storkeytrain!{T <: Real}(net::HopfieldNet, patterns::Matrix{T})
+function storkeytrain!(net::HopfieldNet, patterns::Matrix{T}) where {T <: Real}
     n = length(net.s)
     p = size(patterns, 2)
     for i in 1:n
